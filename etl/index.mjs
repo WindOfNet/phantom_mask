@@ -47,12 +47,7 @@ dotenv.config();
       days.forEach(async (day) => {
         await connection.query(
           `insert into pharmacyOpeningInfo values (?, ?, ?, ?);`,
-          [
-            name,
-            day,
-            openingTime.split(" - ")[0].replace(":", ""),
-            openingTime.split(" - ")[1].replace(":", ""),
-          ],
+          [name, day, openingTime.split(" - ")[0], openingTime.split(" - ")[1]],
         );
       });
     });

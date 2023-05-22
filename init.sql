@@ -11,8 +11,8 @@ create table
 	if not exists pharmacyOpeningInfo (
 		pharmacyName varchar(50),
 		dayOfWeek int,
-		openTime char(4) not null,
-		closeTime char(4) not null,
+		openTime time not null,
+		closeTime time not null,
 		primary key (pharmacyName, dayOfWeek),
 		constraint FK_PharmacyOpeningInfo_PharmacyName foreign key (pharmacyName) references pharmacy (name)
 	);
