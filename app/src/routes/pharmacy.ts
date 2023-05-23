@@ -7,9 +7,7 @@ const router = express.Router();
 
 router.get(
   "/",
-  query("time")
-    .isTime({ hourFormat: "hour24" })
-    .withMessage("invalid time format"),
+  query("time").isTime({ hourFormat: "hour24" }),
   query("dayOfWeek")
     .optional()
     .isIn([1, 2, 3, 4, 5, 6, 7])
@@ -36,9 +34,8 @@ router.get(
 
 router.get(
   "/masks",
-  oneOf([query("minPrice").isNumeric(), query("maxPrice").isNumeric()], {
-    message: "required one of minPrice and maxPrice!",
-  }),
+  query("minPrice").isNumeric(),
+  query("maxPrice").isNumeric(),
   requestValidation,
   controller.listPharmaciesMasks,
 );

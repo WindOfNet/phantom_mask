@@ -1,17 +1,16 @@
 import express from "express";
-import { query, param } from "express-validator";
-import controller from "../controllers/user";
+import { query } from "express-validator";
+import controller from "../controllers/mask";
 import requestValidation from "../middlewares/requestValidation";
 
 const router = express.Router();
 
 router.get(
-  "/transactions/rank/:limit",
-  param("limit").isInt({ min: 1 }),
+  "/transactions",
   query("startDate").isDate({ format: "YYYY-MM-DD", strictMode: true }),
   query("endDate").isDate({ format: "YYYY-MM-DD", strictMode: true }),
   requestValidation,
-  controller.getTransactionRank,
+  controller.getTransactions,
 );
 
 export default router;

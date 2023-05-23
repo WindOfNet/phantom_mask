@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import pharmacyRoutes from "./routes/pharmacy";
 import userRoutes from "./routes/user";
+import maskRoutes from "./routes/mask";
 
 dotenv.config();
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use("/pharmacies", pharmacyRoutes);
 app.use("/users", userRoutes);
+app.use("/masks", maskRoutes);
 
 app.use("/", (_, res) => res.send("hello world"));
 

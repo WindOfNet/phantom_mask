@@ -1,33 +1,21 @@
 import { getDbConnection } from "./db";
-import dayjs from "dayjs";
 
 const getTransactionRank = async (
   limit: number,
-  startDate?: string,
-  endDate?: string,
+  startDate: string,
+  endDate: string,
 ) => {
   const cn = await getDbConnection();
-  let cm = `select userName, sum(transactionAmount) as total from userPurchaseHistory where 1 = 1`;
-  const param = [];
-
-  if (startDate) {
-    cm += `
-      and transactionDate >= str_to_date(?, '%Y-%m-%d')`;
-    param.push(startDate);
-  }
-
-  if (endDate) {
-    cm += `
-      and transactionDate <= str_to_date(?, '%Y-%m-%d')`;
-    param.push(endDate);
-  }
+  let cm = `
+    select userName, sum(transactionAmount) as total from userPurchaseHistory 
+    where transactionDate >= str_to_date(?, '%Y-%m-%d') and transactionDate <= str_to_date(?, '%Y-%m-%d')`;
 
   cm += `
     group by userName
     order by total desc
     limit ${limit}`;
 
-  const [result] = await cn.query(cm, param);
+  const [result] = await cn.query(cm, [startDate, endDate]);
   return result;
 };
 
