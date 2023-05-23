@@ -12,13 +12,13 @@ const getTransactionRank = async (
 
   if (startDate) {
     cm += `
-      and str_to_date(transactionDate, '%Y-%m-%d') >= str_to_date(?, '%Y-%m-%d')`;
+      and transactionDate >= str_to_date(?, '%Y-%m-%d')`;
     param.push(startDate);
   }
 
   if (endDate) {
     cm += `
-      and str_to_date(transactionDate, '%Y-%m-%d') <= str_to_date(?, '%Y-%m-%d')`;
+      and transactionDate <= str_to_date(?, '%Y-%m-%d')`;
     param.push(endDate);
   }
 

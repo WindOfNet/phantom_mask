@@ -1,14 +1,15 @@
 import express from "express";
 import { query, param, oneOf } from "express-validator";
 import controller from "../controllers/pharmacy";
-import isValidTimeFormat from "../utils/isValidTimeFormat";
 import requestValidation from "../middlewares/requestValidation";
 
 const router = express.Router();
 
 router.get(
   "/",
-  query("time").custom(isValidTimeFormat).withMessage("invalid time format"),
+  query("time")
+    .isTime({ hourFormat: "hour24" })
+    .withMessage("invalid time format"),
   query("dayOfWeek")
     .optional()
     .isIn([1, 2, 3, 4, 5, 6, 7])

@@ -1,7 +1,6 @@
 import express from "express";
 import { param, query } from "express-validator";
 import controller from "../controllers/user";
-import isValidDateFormat from "../utils/isValidDateFormat";
 import requestValidation from "../middlewares/requestValidation";
 
 const router = express.Router();
