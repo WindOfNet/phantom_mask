@@ -1,10 +1,10 @@
 import { getDbConnection } from "./db";
 import dayjs from "dayjs";
 
-const listPharmacy = async (time: string, dayOfWeek?: number) => {
+const listPharmacies = async (time: string, dayOfWeek?: number) => {
   const cn = await getDbConnection();
-  let queryStr = `
-    select * from pharmacyOpeningInfo
+  let cm = `
+    select pharmacyName from pharmacyOpeningInfo
     where ( 
       str_to_date(?, '%Y-%m-%d %H:%i:%s') >= str_to_date(concat(?, ' ', openTime), '%Y-%m-%d %H:%i:%s')
       and
@@ -12,13 +12,13 @@ const listPharmacy = async (time: string, dayOfWeek?: number) => {
     )`;
 
   if (dayOfWeek) {
-    queryStr += " and dayOfWeek = ?";
+    cm += " and dayOfWeek = ?";
   }
 
   const today = dayjs();
   const todayString = today.format("YYYY-MM-DD");
   const queryTimeString = `${todayString} ${time}`;
-  const [result] = await cn.query(queryStr, [
+  const [result] = await cn.query(cm, [
     queryTimeString,
     todayString,
     queryTimeString,
@@ -29,4 +29,23 @@ const listPharmacy = async (time: string, dayOfWeek?: number) => {
   return result;
 };
 
-export default { listPharmacy };
+const listPharmacyMasks = async (
+  pharmacyName: string,
+  sortBy?: string,
+  sortDirection?: string,
+) => {
+  const cn = await getDbConnection();
+  let cm = `
+    select maskName, price from pharmacyMask
+    where pharmacyName = ?`;
+
+  if (sortBy) {
+    cm += `
+      order by ?? ${sortDirection}`;
+  }
+
+  const [result] = await cn.query(cm, [pharmacyName, sortBy, sortDirection]);
+  return result;
+};
+
+export default { listPharmacies, listPharmacyMasks };
