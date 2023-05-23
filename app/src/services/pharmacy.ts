@@ -48,4 +48,28 @@ const listPharmacyMasks = async (
   return result;
 };
 
-export default { listPharmacies, listPharmacyMasks };
+const listPharmaciesMasks = async (minPrice?: number, maxPrice?: number) => {
+  const cn = await getDbConnection();
+  let cm = `
+    select * from pharmacyMask
+    where 1 = 1`;
+  const param = [];
+
+  if (minPrice) {
+    cm += `
+        and price >= ?`;
+    param.push(minPrice);
+  }
+
+  if (maxPrice) {
+    cm += `
+        and price <= ?`;
+    param.push(maxPrice);
+  }
+
+  console.log(cn.format(cm, param));
+  const [result] = await cn.query(cm, param);
+  return result;
+};
+
+export default { listPharmacies, listPharmacyMasks, listPharmaciesMasks };

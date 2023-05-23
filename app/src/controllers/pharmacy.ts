@@ -12,8 +12,7 @@ const listPharmacyMasks = async (
   res: express.Response,
 ) => {
   const pharmacyName = req.params["pharmacyName"];
-  const sortBy = req.query["sortBy"];
-  const sortDirection = req.query["sortDirection"];
+  const { sortBy, sortDirection } = req.query;
   const r = await service.listPharmacyMasks(
     pharmacyName as string,
     sortBy as string,
@@ -22,4 +21,16 @@ const listPharmacyMasks = async (
   res.send(r);
 };
 
-export default { listPharmacies, listPharmacyMasks };
+const listPharmaciesMasks = async (
+  req: express.Request,
+  res: express.Response,
+) => {
+  const { minPrice, maxPrice } = req.query;
+  const r = await service.listPharmaciesMasks(
+    Number(minPrice),
+    Number(maxPrice),
+  );
+  res.send(r);
+};
+
+export default { listPharmacies, listPharmacyMasks, listPharmaciesMasks };

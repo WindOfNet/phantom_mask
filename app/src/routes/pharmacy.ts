@@ -1,5 +1,5 @@
 import express from "express";
-import { query, param } from "express-validator";
+import { query, param, oneOf } from "express-validator";
 import controller from "../controllers/pharmacy";
 import isValidTimeFormat from "../utils/isValidTimeFormat";
 import requestValidation from "../middlewares/requestValidation";
@@ -31,6 +31,15 @@ router.get(
     .withMessage("invalid direction"),
   requestValidation,
   controller.listPharmacyMasks,
+);
+
+router.get(
+  "/masks",
+  oneOf([query("minPrice").isNumeric(), query("maxPrice").isNumeric()], {
+    message: "required one of minPrice and maxPrice!",
+  }),
+  requestValidation,
+  controller.listPharmaciesMasks,
 );
 
 export default router;
