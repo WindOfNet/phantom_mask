@@ -8,6 +8,7 @@ const config: mysql.PoolOptions = {
   user: process.env["DB_USER"],
   password: process.env["DB_PASSWORD"],
   database: process.env["DB_DATABASE"],
+  decimalNumbers: true,
 };
 
 const pool = mysql.createPool(config);
