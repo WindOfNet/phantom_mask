@@ -15,4 +15,20 @@ const getTransactionRank = async (
   res.send(r);
 };
 
-export default { getTransactionRank };
+const purchase = async (req: express.Request, res: express.Response) => {
+  const user = req.params["user"];
+  const { pharmacy, mask } = req.body;
+  const { isSuccess, payload } = await service.purchase(
+    user as string,
+    pharmacy as string,
+    mask as string,
+  );
+
+  if (!isSuccess) {
+    res.status(403);
+  }
+
+  res.send(payload);
+};
+
+export default { getTransactionRank, purchase };
