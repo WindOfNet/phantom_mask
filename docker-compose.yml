@@ -13,6 +13,20 @@ services:
       - 3306:3306
     networks:
       - mynetwork
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3000
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=123
+      - DB_DATABASE=test
+    ports:
+      - 3000:3000
+    networks:
+      - mynetwork
 
 networks:
   mynetwork:
