@@ -33,4 +33,21 @@ const listPharmaciesMasks = async (
   res.send(r);
 };
 
-export default { listPharmacies, listPharmacyMasks, listPharmaciesMasks };
+const listTransactions = async (
+  req: express.Request,
+  res: express.Response,
+) => {
+  const { startDate, endDate } = req.query;
+  const r = await service.listTransactions(
+    startDate as string,
+    endDate as string,
+  );
+  res.send(r);
+};
+
+export default {
+  listPharmacies,
+  listPharmacyMasks,
+  listPharmaciesMasks,
+  listTransactions,
+};

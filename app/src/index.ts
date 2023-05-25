@@ -2,10 +2,9 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "./swagger.jsdoc";
+import swaggerSpec from "./swagger.spec";
 import pharmacyRoutes from "./routes/pharmacy";
 import userRoutes from "./routes/user";
-import maskRoutes from "./routes/mask";
 import searchRoutes from "./routes/search";
 
 dotenv.config();
@@ -16,7 +15,6 @@ app.use(express.json());
 
 app.use("/pharmacies", pharmacyRoutes);
 app.use("/users", userRoutes);
-app.use("/masks", maskRoutes);
 app.use("/search", searchRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
