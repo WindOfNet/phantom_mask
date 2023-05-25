@@ -9,9 +9,7 @@ const getTransactionRank = async (
   const cn = await getDbConnection();
   let cm = `
     select userName, sum(transactionAmount) as total from userPurchaseHistory 
-    where transactionDate >= str_to_date(?, '%Y-%m-%d') and transactionDate <= str_to_date(?, '%Y-%m-%d')`;
-
-  cm += `
+    where transactionDate >= str_to_date(?, '%Y-%m-%d') and transactionDate <= str_to_date(?, '%Y-%m-%d')
     group by userName
     order by total desc
     limit ${limit}`;
@@ -53,6 +51,7 @@ const purchase = async (user: string, pharmacy: string, mask: string) => {
   }
 
   await cn.beginTransaction();
+
   await cn.query(
     `update user set cashBalance = cashBalance - ${maskPrice} where name = ?`,
     [user],
@@ -65,6 +64,7 @@ const purchase = async (user: string, pharmacy: string, mask: string) => {
     `insert into userPurchaseHistory values(?, ?, ?, ${maskPrice}, now())`,
     [user, pharmacy, mask],
   );
+
   await cn.commit();
 
   return {

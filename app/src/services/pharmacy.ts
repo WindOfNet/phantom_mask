@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 const listPharmacies = async (time: string, dayOfWeek?: number) => {
   const cn = await getDbConnection();
   let cm = `
-    select pharmacyName from pharmacyOpeningInfo
+    select pharmacyName, openTime, closeTime, dayOfWeek from pharmacyOpeningInfo
     where ( 
       str_to_date(?, '%Y-%m-%d %H:%i:%s') >= str_to_date(concat(?, ' ', openTime), '%Y-%m-%d %H:%i:%s')
       and
